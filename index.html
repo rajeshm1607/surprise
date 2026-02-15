@@ -1,0 +1,756 @@
+<!--
+  Valentine’s Day Single-Page Site (Self-Contained)
+  -------------------------------------------------
+  Where to place photos:
+    - Put images in: ./photos/1.jpg through ./photos/9.jpg (relative to this HTML file)
+  Where to place music:
+    - Put audio in: ./music/song.mp3 (relative to this HTML file)
+  How to edit text arrays:
+    - Search for the arrays named `reasons` and `milestones` in the <script> section below.
+      You can edit, add, or remove items there.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Happy Valentine’s Day, Tharu ❤️</title>
+  <style>
+    :root {
+      --blush: #f9c5d1;
+      --peach: #fdd4c1;
+      --rose: #ff6f91;
+      --berry: #c83f6f;
+      --text: #3b1f2b;
+      --white: #ffffff;
+      --glass: rgba(255, 255, 255, 0.35);
+      --glass-border: rgba(255, 255, 255, 0.4);
+      --shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Segoe UI", "Helvetica Neue", Arial, system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      background: linear-gradient(135deg, var(--blush), var(--peach));
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+    }
+
+    header,
+    section {
+      padding: 64px 20px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .hero {
+      text-align: center;
+      padding-top: 96px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 6vw, 3.6rem);
+      color: var(--berry);
+      letter-spacing: 0.5px;
+    }
+
+    .hero p.subheading {
+      margin-top: 12px;
+      font-size: clamp(1.1rem, 3.5vw, 1.5rem);
+      font-weight: 600;
+    }
+
+    .hero p.message {
+      margin: 24px auto 32px;
+      max-width: 720px;
+      font-size: clamp(1rem, 3.2vw, 1.2rem);
+      line-height: 1.6;
+    }
+
+    .primary-btn {
+      background: var(--rose);
+      color: var(--white);
+      border: none;
+      padding: 14px 28px;
+      border-radius: 999px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .primary-btn:hover,
+    .primary-btn:focus {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 30px rgba(0, 0, 0, 0.18);
+      outline: none;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      color: var(--berry);
+      margin-bottom: 18px;
+      text-align: center;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 36px;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+    }
+
+    .gallery-grid img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 18px;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease;
+    }
+
+    .gallery-grid img:hover {
+      transform: scale(1.03);
+    }
+
+    .reasons-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .reason-card {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(12px);
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      min-height: 120px;
+    }
+
+    .reason-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      color: var(--berry);
+    }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: relative;
+      margin-top: 24px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 10px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: rgba(200, 63, 111, 0.3);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-left: 36px;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: 2px;
+      top: 6px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--rose);
+      box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.5);
+    }
+
+    .timeline-item h4 {
+      font-size: 1.1rem;
+      color: var(--berry);
+      margin-bottom: 6px;
+    }
+
+    .timeline-item span {
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: inline-block;
+      margin-bottom: 6px;
+    }
+
+    .question-section {
+      text-align: center;
+      position: relative;
+    }
+
+    .question-section h2 {
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      color: var(--berry);
+      margin-bottom: 24px;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .yes-btn {
+      background: var(--berry);
+      color: var(--white);
+      padding: 14px 28px;
+      border: none;
+      border-radius: 999px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+
+    .no-btn {
+      background: rgba(255, 255, 255, 0.7);
+      color: var(--berry);
+      padding: 14px 28px;
+      border: 2px dashed var(--berry);
+      border-radius: 999px;
+      font-weight: 600;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .love-message {
+      opacity: 0;
+      transition: opacity 0.6s ease;
+      font-size: 1.2rem;
+      margin-top: 12px;
+    }
+
+    .love-message.show {
+      opacity: 1;
+    }
+
+    .promise {
+      margin-top: 28px;
+      padding: 22px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.6);
+      box-shadow: var(--shadow);
+      display: none;
+    }
+
+    .promise.show {
+      display: block;
+    }
+
+    .music-control {
+      position: fixed;
+      bottom: 18px;
+      right: 18px;
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 999px;
+      padding: 10px 16px;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .music-control span {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .fade-in.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+      padding: 20px;
+    }
+
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 80vh;
+    }
+
+    .lightbox img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .lightbox button {
+      position: absolute;
+      top: -12px;
+      right: -12px;
+      background: var(--rose);
+      border: none;
+      color: var(--white);
+      border-radius: 999px;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .hearts {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .heart {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background: rgba(255, 255, 255, 0.6);
+      transform: rotate(45deg);
+      animation: float 12s linear infinite;
+      border-radius: 3px;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -8px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: -8px;
+      top: 0;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(45deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.7;
+      }
+      100% {
+        transform: translateY(-110vh) rotate(45deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes confetti {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(120vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .confetti-piece {
+      position: fixed;
+      width: 10px;
+      height: 14px;
+      background: #fff;
+      top: -20px;
+      animation: confetti 3s ease-in forwards;
+      z-index: 30;
+    }
+
+    @media (min-width: 768px) {
+      header,
+      section {
+        padding: 80px 40px;
+      }
+
+      .timeline::before {
+        left: 50%;
+      }
+
+      .timeline-item {
+        width: 50%;
+        padding-left: 0;
+        padding-right: 40px;
+      }
+
+      .timeline-item:nth-child(even) {
+        align-self: flex-end;
+        padding-left: 40px;
+        padding-right: 0;
+        text-align: left;
+      }
+
+      .timeline-item::before {
+        left: auto;
+        right: -8px;
+      }
+
+      .timeline-item:nth-child(even)::before {
+        left: -8px;
+        right: auto;
+      }
+
+      .timeline-item h4,
+      .timeline-item span,
+      .timeline-item p {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="hearts" aria-hidden="true"></div>
+
+  <div class="page">
+    <header id="top" class="hero">
+      <div class="container fade-in">
+        <h1>Happy Valentine’s Day, Tharu ❤️</h1>
+        <p class="subheading">From your Rajesh, forever and always.</p>
+        <p class="message">
+          Tharu, I don’t say it enough, but every ordinary day feels softer and brighter because of you.
+          Your calm strength, your warm laugh, and the way you care for us make me want to be a better husband,
+          a better friend, and a better man. Thank you for loving me as I am, and for all the little moments
+          that become my favorite memories with you.
+        </p>
+        <button class="primary-btn" id="surpriseBtn" aria-label="Open your surprise">Open Your Surprise</button>
+      </div>
+    </header>
+
+    <section id="gallery">
+      <div class="container fade-in">
+        <h2 class="section-title">Our Little Gallery</h2>
+        <p class="section-subtitle">
+          A few snapshots of the love we keep building, one smile at a time.
+        </p>
+        <div class="gallery-grid">
+          <!--
+            Place your photos in the ./photos folder and name them 1.jpeg to 9.jpeg
+            Example: ./photos/1.jpg
+          -->
+          <img src="./photos/1.jpeg" alt="Memory 1" />
+          <img src="./photos/2.jpeg" alt="Memory 2" />
+          <img src="./photos/3.jpeg" alt="Memory 3" />
+          <img src="./photos/4.jpeg" alt="Memory 4" />
+          <img src="./photos/5.jpeg" alt="Memory 5" />
+          <img src="./photos/6.jpeg" alt="Memory 6" />
+          <img src="./photos/7.jpeg" alt="Memory 7" />
+          <img src="./photos/8.jpeg" alt="Memory 8" />
+          <img src="./photos/9.jpeg" alt="Memory 9" />
+        </div>
+      </div>
+    </section>
+
+    <section id="reasons">
+      <div class="container fade-in">
+        <h2 class="section-title">Reasons I Love You</h2>
+        <p class="section-subtitle">
+          Eight small reasons, each one a big part of my heart.
+        </p>
+        <div class="reasons-grid" id="reasonsGrid"></div>
+      </div>
+    </section>
+
+    <section id="journey">
+      <div class="container fade-in">
+        <h2 class="section-title">Our Journey</h2>
+        <p class="section-subtitle">
+          Moments that shaped us, held close like a promise.
+        </p>
+        <div class="timeline" id="timeline"></div>
+      </div>
+    </section>
+
+    <section id="question" class="question-section">
+      <div class="container fade-in">
+        <h2>Tharu, will you be my Valentine today and always?</h2>
+        <div class="button-row" id="buttonRow">
+          <button class="yes-btn" id="yesBtn" aria-label="Say yes">YES ❤️</button>
+          <button class="no-btn" id="noBtn" aria-label="Say no">NO 🙈</button>
+        </div>
+        <p class="love-message" id="loveMessage">I love you endlessly. – Rajesh</p>
+        <div class="promise" id="promise">
+          <h3>Forever Promise</h3>
+          <p>
+            I’ll keep choosing you in every season—on the quiet days, the busy days, and every day in between.
+            Thank you for being my home.
+          </p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="lightbox-content" role="dialog" aria-modal="true" aria-label="Photo lightbox">
+      <button id="lightboxClose" aria-label="Close photo">×</button>
+      <img id="lightboxImage" src="" alt="Selected memory" />
+    </div>
+  </div>
+
+  <button class="music-control" id="musicControl" aria-label="Play or pause music">
+    <span id="musicLabel">Play Music</span>
+  </button>
+  <audio id="bgMusic" src="./music/song.mp3"></audio>
+
+  <script>
+    const reasons = [
+      "You make home feel warm, no matter where we are.",
+      "You notice the little things and love me through them.",
+      "Your smile calms every storm in me.",
+      "You make me laugh in ways no one else can.",
+      "You believe in us, especially when I need it most.",
+      "You turn ordinary moments into something beautiful.",
+      "You are gentle, strong, and full of grace.",
+      "You choose me every day, and I feel it." 
+    ];
+
+    const milestones = [
+      {
+        date: "April 2021",
+        title: "The day we met",
+        memory: "Everything felt easy with you, like our story had already begun."
+      },
+      {
+        date: "August 2021",
+        title: "We got married",
+        memory: "I still feel the joy of choosing you—then, now, and always."
+      },
+      {
+        date: "July 2022",
+        title: "We came to the USA",
+        memory: "A new country, but the same love—steadier and stronger."
+      },
+      {
+        date: "July 2023",
+        title: "We got Vishagan",
+        memory: "A new heartbeat in our lives, and more love than I knew was possible."
+      }
+    ];
+
+    const reasonsGrid = document.getElementById("reasonsGrid");
+    const timeline = document.getElementById("timeline");
+    const fadeIns = document.querySelectorAll(".fade-in");
+    const surpriseBtn = document.getElementById("surpriseBtn");
+    const gallerySection = document.getElementById("gallery");
+
+    reasons.forEach((reason, index) => {
+      const card = document.createElement("div");
+      card.className = "reason-card";
+      card.innerHTML = `<h3>Reason ${index + 1}</h3><p>${reason}</p>`;
+      reasonsGrid.appendChild(card);
+    });
+
+    milestones.forEach((milestone) => {
+      const item = document.createElement("div");
+      item.className = "timeline-item";
+      item.innerHTML = `
+        <span>${milestone.date}</span>
+        <h4>${milestone.title}</h4>
+        <p>${milestone.memory}</p>
+      `;
+      timeline.appendChild(item);
+    });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    fadeIns.forEach((el) => observer.observe(el));
+
+    surpriseBtn.addEventListener("click", () => {
+      gallerySection.scrollIntoView({ behavior: "smooth" });
+    });
+
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImage = document.getElementById("lightboxImage");
+    const lightboxClose = document.getElementById("lightboxClose");
+
+    document.querySelectorAll(".gallery-grid img").forEach((img) => {
+      img.addEventListener("click", () => {
+        lightboxImage.src = img.src;
+        lightbox.classList.add("open");
+        lightbox.setAttribute("aria-hidden", "false");
+      });
+    });
+
+    function closeLightbox() {
+      lightbox.classList.remove("open");
+      lightbox.setAttribute("aria-hidden", "true");
+    }
+
+    lightboxClose.addEventListener("click", closeLightbox);
+    lightbox.addEventListener("click", (event) => {
+      if (event.target === lightbox) {
+        closeLightbox();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeLightbox();
+      }
+    });
+
+    const heartsContainer = document.querySelector(".hearts");
+
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = 10 + Math.random() * 10 + "s";
+      heart.style.opacity = 0.5 + Math.random() * 0.5;
+      heart.style.transform = `scale(${0.6 + Math.random() * 0.8}) rotate(45deg)`;
+      heartsContainer.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 20000);
+    }
+
+    setInterval(createHeart, 1200);
+
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const loveMessage = document.getElementById("loveMessage");
+    const promise = document.getElementById("promise");
+    const buttonRow = document.getElementById("buttonRow");
+
+    function launchConfetti() {
+      const colors = ["#ff6f91", "#ffc1cc", "#fdd4c1", "#c83f6f", "#ffffff"]; 
+      for (let i = 0; i < 120; i++) {
+        const piece = document.createElement("div");
+        piece.className = "confetti-piece";
+        piece.style.left = Math.random() * 100 + "vw";
+        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.animationDuration = 2 + Math.random() * 2 + "s";
+        piece.style.width = 6 + Math.random() * 6 + "px";
+        piece.style.height = 8 + Math.random() * 8 + "px";
+        piece.style.opacity = 0.7 + Math.random() * 0.3;
+        document.body.appendChild(piece);
+        setTimeout(() => piece.remove(), 4000);
+      }
+    }
+
+    yesBtn.addEventListener("click", () => {
+      launchConfetti();
+      loveMessage.classList.add("show");
+      promise.classList.add("show");
+    });
+
+    function moveNoButton() {
+      const container = buttonRow.getBoundingClientRect();
+      const btn = noBtn.getBoundingClientRect();
+      const maxLeft = container.width - btn.width;
+      const maxTop = container.height - btn.height;
+      const randomLeft = Math.max(0, Math.random() * maxLeft);
+      const randomTop = Math.max(0, Math.random() * maxTop);
+
+      noBtn.style.position = "absolute";
+      noBtn.style.left = `${randomLeft}px`;
+      noBtn.style.top = `${randomTop}px`;
+    }
+
+    function isTouchDevice() {
+      return window.matchMedia("(pointer: coarse)").matches;
+    }
+
+    if (isTouchDevice()) {
+      noBtn.addEventListener("click", (event) => {
+        event.preventDefault();
+        moveNoButton();
+      });
+    } else {
+      noBtn.addEventListener("mouseenter", moveNoButton);
+    }
+
+    const musicControl = document.getElementById("musicControl");
+    const musicLabel = document.getElementById("musicLabel");
+    const bgMusic = document.getElementById("bgMusic");
+
+    musicControl.addEventListener("click", () => {
+      if (bgMusic.paused) {
+        bgMusic.play();
+        musicLabel.textContent = "Pause Music";
+      } else {
+        bgMusic.pause();
+        musicLabel.textContent = "Play Music";
+      }
+    });
+  </script>
+</body>
+</html>
